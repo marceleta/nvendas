@@ -1,0 +1,152 @@
+<Gerenciador>:
+    Inicio:
+    Login:
+    Menu:
+    
+
+<MyBoxLayout@BoxLayout>:
+    canvas.before:
+        Color:
+            rgba: 0.5, 0.5, 0.5, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+
+<Inicio>:
+    name: 'inicio'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: root.width*0.10, root.height*0.4
+        spacing: '10dp'
+        canvas:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos  
+        
+        Image:
+            source: 'imagens/logo.png'
+            size_hint_y: None
+            height: '100dp'
+            allow_stretch: True
+
+        Label:
+            id: texto_progresso
+            text: 'Iniciando...'
+            size_hint_y: None
+            height:'10dp'
+            font_size: '15sp'            
+
+        ProgressBar:
+            id: pb
+            size_hint_y: None
+            height: '10sp'
+            max: 1
+            min: 0
+
+<Login>:
+    name: 'login'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: root.width*0.10, root.height*0.4
+        spacing: '10dp'
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                size:self.size
+                pos:self.pos
+
+        Image:
+            source: 'imagens/logo.png'
+            size_hint_y: None
+            height: '50dp'
+            allow_stretch: True
+
+        TextInput:
+            id:txtLogin
+            multiline: False
+            focus: True
+            size_hint: None, None
+            width: root.width * 0.80
+            height:'25dp'
+            
+        TextInput:
+            id:txtSenha
+            multiline: False
+            size_hint: None, None
+            width: root.width * 0.80
+            height: '25dp'
+            password: True
+            on_text_validate: root.teste_usuario()
+        
+        BoxLayout:
+            size_hint_y: None
+            height: '40sp'
+            Label:
+            Label:
+            Button:
+                text: 'Entrar'
+                on_release: root.teste_usuario()
+                size_hint: None, None
+                width: '70sp'
+                height:'40sp'
+            Button:
+                text: 'Sair'
+                on_release: app.stop()
+                size_hint: None, None
+                width: '70sp'
+                height:'40sp'
+
+<Menu>:
+    name: 'menu'
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        ActionBar:
+            id:actBar
+            pos_hint: {'top':1}
+            ActionView:
+                ActionPrevious:
+                    title: 'Login'
+                    on_release: app.root.current = 'login'
+                ActionButton:
+                    text: 'Sair'
+                    on_release: app.stop()
+
+        GridLayout:
+            padding: root.width*0.10, root.height*0.1
+            spacing: '10dp'
+            cols:2
+            Button:
+                text: 'Pedidos'
+                size_hint: None, None
+                width: '110dp'
+                height: '70dp'
+            Button:
+                text: 'Clientes'
+                size_hint: None, None
+                width: '110dp'
+                height: '70dp'
+            Button:
+                text: 'Produtos'
+                size_hint: None, None
+                width: '110dp'
+                height: '70dp'
+            Button:
+                text: 'Contas a receber'
+                size_hint: None, None
+                width: '110dp'
+                height: '70dp'
+            Button:
+                text: 'Sincronizar'
+                size_hint: None, None
+                width: '110dp'
+                height: '70dp'

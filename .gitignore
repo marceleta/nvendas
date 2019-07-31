@@ -1,0 +1,5 @@
+*.pyc
+.buildozer
+*.db
+*.log
+/bin
