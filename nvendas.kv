@@ -1,7 +1,9 @@
 <Gerenciador>:
+    Lista_cliente:
     Inicio:
     Login:
     Menu:
+    
     
 
 <MyBoxLayout@BoxLayout>:
@@ -72,6 +74,7 @@
             size_hint: None, None
             width: root.width * 0.80
             height:'25dp'
+            hint_text: 'Usuário'
             
         TextInput:
             id:txtSenha
@@ -81,6 +84,7 @@
             height: '25dp'
             password: True
             on_text_validate: root.teste_usuario()
+            hint_text: 'Senha'
         
         BoxLayout:
             size_hint_y: None
@@ -135,6 +139,7 @@
                 size_hint: None, None
                 width: '110dp'
                 height: '70dp'
+                on_release: root.show_lista_clientes()
             Button:
                 text: 'Produtos'
                 size_hint: None, None
@@ -150,3 +155,101 @@
                 size_hint: None, None
                 width: '110dp'
                 height: '70dp'
+
+<Linha_cliente>:
+    orientation: 'horizontal'
+    
+    nome_text: 'nome_text'
+    telefone_text: 'telefone_text'
+    cidade_text: 'cidade_text'
+
+    Label:
+        text: root.nome_text
+    Label:
+        text: root.telefone_text
+    Label:
+        text: root.cidade_text
+
+<Lista_cliente>:
+    name: 'lista_cliente'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: root.width * 0.07, root.height*0.90
+        spacing: '15dp'
+        canvas.before:
+            Color: 
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        BoxLayout:
+            Label:
+                text: 'Clientes   '
+                font_size: '30sp'
+                halign: 'right'
+            Label:
+            
+        GridLayout:
+            orientation: 'vertical'
+            cols: 2
+            spacing:'5dp'
+            TextInput:
+                size_hint: None, None
+                width: root.width * 0.6
+                height: root.height * 0.05
+                hint_text: 'Pesquisar nome/cidade'
+                focus: True
+            Button:
+                size_hint: None, None
+                width: root.width * 0.25
+                height: root.height * 0.05
+                text: 'Limpar'
+    BoxLayout:
+        orientation: 'vertical'
+        
+        GridLayout:
+            cols:3
+            Label:
+                text: 'Nome'
+                halign: 'right'
+            Label:
+                text: 'Cidade'
+                halign: 'right'
+
+        BoxLayout:
+            RecycleView:
+                viewclass: 'Linha_cliente'
+                id:recycle
+                SelectableRecycleGridLayout:
+                    cols: 1
+                    default_size: None, '26dp'
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    multiselect: False
+                    touch_multiselect: False
+
+        GridLayout:
+            spacing: '15dp'
+            cols: 2
+            Button:
+                text: 'Button'
+                size_hint: None, None
+                width: '100dp'
+                height: '40dp'
+            Button:
+                text: 'Button'
+                size_hint: None, None
+                width: '100dp'
+                height: '40dp'
+
+    
+
+         
+
+
+
+
+          
+
