@@ -3,8 +3,7 @@
     Inicio:
     Login:
     Menu:
-    
-    
+       
 
 <MyBoxLayout@BoxLayout>:
     canvas.before:
@@ -157,99 +156,77 @@
                 height: '70dp'
 
 <Linha_cliente>:
-    orientation: 'horizontal'
-    
+   
     nome_text: 'nome_text'
-    telefone_text: 'telefone_text'
     cidade_text: 'cidade_text'
 
     Label:
         text: root.nome_text
-    Label:
-        text: root.telefone_text
+        text_size: self.size
+        halign: 'left'
+        valign: 'center'
+        size_hint: .7, 1
     Label:
         text: root.cidade_text
+        text_size: self.size
+        halign: 'left'
+        size_hint: .3, 1
+        valign: 'center'
 
 <Lista_cliente>:
     name: 'lista_cliente'
+    canvas.before:
+        Color:
+            rgba: .5, .5, .5, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
     BoxLayout:
+        spacing: 5
         orientation: 'vertical'
-        padding: root.width * 0.07, root.height*0.90
-        spacing: '15dp'
-        canvas.before:
-            Color: 
-                rgba: 0.5, 0.5, 0.5, 1
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        BoxLayout:
-            Label:
-                text: 'Clientes   '
-                font_size: '30sp'
-                halign: 'right'
-            Label:
-            
-        GridLayout:
-            orientation: 'vertical'
-            cols: 2
-            spacing:'5dp'
-            TextInput:
-                size_hint: None, None
-                width: root.width * 0.6
-                height: root.height * 0.05
-                hint_text: 'Pesquisar nome/cidade'
-                focus: True
-            Button:
-                size_hint: None, None
-                width: root.width * 0.25
-                height: root.height * 0.05
-                text: 'Limpar'
-    BoxLayout:
-        orientation: 'vertical'
-        
-        GridLayout:
-            cols:3
-            Label:
-                text: 'Nome'
-                halign: 'right'
-            Label:
-                text: 'Cidade'
-                halign: 'right'
 
         BoxLayout:
+            size_hint: 1, .10
+            Label:
+                text:'Clientes'
+                size_hint: .1, .4
+                pos_hint: {'x': .05, 'y': .3}
+                text_size: self.size
+                halign: 'left'
+        BoxLayout:
+            size_hint: 1, .07
+            TextInput:
+                hint_text: 'Pesquisa nome/cidade'
+                size_hint: .7, 1
+                text_size: self.size
+            Button:
+                text: 'Limpar'
+                size_hint: .3, 1             
+        
+        BoxLayout:
+            size_hint: 1, .07
+            Label:
+                text: 'Nome'
+                size_hint: .7, .7
+                text_size: self.size
+                halign: 'left'
+            Label:
+                text: 'Cidade'
+                size_hint: .3, .7
+                text_size: self.size
+                halign: 'left'            
+        
+        BoxLayout:
+            orientation: 'vertical'
             RecycleView:
                 viewclass: 'Linha_cliente'
                 id:recycle
                 SelectableRecycleGridLayout:
                     cols: 1
-                    default_size: None, '26dp'
+                    default_size: None, dp(26)
                     default_size_hint: 1, None
                     size_hint_y: None
                     height: self.minimum_height
                     orientation: 'vertical'
                     multiselect: False
                     touch_multiselect: False
-
-        GridLayout:
-            spacing: '15dp'
-            cols: 2
-            Button:
-                text: 'Button'
-                size_hint: None, None
-                width: '100dp'
-                height: '40dp'
-            Button:
-                text: 'Button'
-                size_hint: None, None
-                width: '100dp'
-                height: '40dp'
-
-    
-
-         
-
-
-
-
-          
-

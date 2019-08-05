@@ -80,16 +80,22 @@ class Linha_cliente(GridLayout, RecycleDataViewBehavior, Button):
     selected = BooleanProperty(False)
     selectable = BooleanProperty(True)
     _data_selected = None
-    cols = 3
-
+    cols = 2
+    background_color = (1, 1, 1, 1)
+    
     def refresh_view_attrs(self, rv, index, data):
 
+        print(data['nome']['text'])
+        print(data['telefone']['text'])
+        
         self.index = index
-        self.nome_text = data['cliente']['nome']
-        self.telefone_text = data['cliente']['telefone']
-        self.cidade_text = data['cliente']['cidade']
+        self.nome_text = data['nome']['text']
+        self.cidade_text = data['telefone']['text']
 
-        return super().refresh_view_attrs(rv, index, data)
+        #print(self.nome_text)
+        #print(self.cidade_text)
+
+        return super(Linha_cliente, self).refresh_view_attrs(rv, index, data)
     
     def on_touch_down(self, touch):
         
@@ -110,7 +116,20 @@ class Linha_cliente(GridLayout, RecycleDataViewBehavior, Button):
     
 
 class Lista_cliente(Screen):
-    pass
+    
+    def __init__(self, **kwargs):
+        super(Lista_cliente, self).__init__(**kwargs)
+        Clock.schedule_once(self._setup, 0)
+    
+    def _setup(self, *args):
+        p1 = {'nome':{'text':'Nome1'}, 'telefone':{'text':'telefone1'}}
+        p2 = {'nome':{'text':'Nome2'}, 'telefone':{'text':'telefone2'}}
+        self.ids['recycle'].data.append(p1)
+        self.ids['recycle'].data.append(p2)
+        
+        
+
+    
         
 
     
