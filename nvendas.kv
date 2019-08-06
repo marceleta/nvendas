@@ -3,6 +3,7 @@
     Inicio:
     Login:
     Menu:
+    Detalhe_cliente:
        
 
 <MyBoxLayout@BoxLayout>:
@@ -156,7 +157,7 @@
                 height: '70dp'
 
 <Linha_cliente>:
-   
+    padding_left: 5
     nome_text: 'nome_text'
     cidade_text: 'cidade_text'
 
@@ -222,11 +223,26 @@
                 viewclass: 'Linha_cliente'
                 id:recycle
                 SelectableRecycleGridLayout:
+                    spacing: dp(2)
                     cols: 1
-                    default_size: None, dp(26)
+                    default_size: None, dp(40)
                     default_size_hint: 1, None
                     size_hint_y: None
                     height: self.minimum_height
                     orientation: 'vertical'
                     multiselect: False
                     touch_multiselect: False
+
+<Detalhe_cliente>:
+    name: 'detalhe_cliente'
+
+    TabbedPanel:
+
+        TabbedPanelItem:
+            text: 'Dados Pessoais'
+
+        TabbedPanelItem:
+            text: 'Endereço'
+
+        TabbedPanelItem:
+            text: 'Observações'

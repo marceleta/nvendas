@@ -86,11 +86,11 @@ class Linha_cliente(GridLayout, RecycleDataViewBehavior, Button):
     def refresh_view_attrs(self, rv, index, data):
 
         print(data['nome']['text'])
-        print(data['telefone']['text'])
+        print(data['cidade']['text'])
         
         self.index = index
         self.nome_text = data['nome']['text']
-        self.cidade_text = data['telefone']['text']
+        self.cidade_text = data['cidade']['text']
 
         #print(self.nome_text)
         #print(self.cidade_text)
@@ -122,10 +122,13 @@ class Lista_cliente(Screen):
         Clock.schedule_once(self._setup, 0)
     
     def _setup(self, *args):
-        p1 = {'nome':{'text':'Nome1'}, 'telefone':{'text':'telefone1'}}
-        p2 = {'nome':{'text':'Nome2'}, 'telefone':{'text':'telefone2'}}
+        p1 = {'nome':{'text':'Nome1'}, 'cidade':{'text':'Petrolina'}}
+        p2 = {'nome':{'text':'Nome2'}, 'cidade':{'text':'Juazeiro'}}
         self.ids['recycle'].data.append(p1)
         self.ids['recycle'].data.append(p2)
+
+class Detalhe_cliente(Screen):
+    pass
         
         
 
