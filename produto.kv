@@ -1,0 +1,306 @@
+<Linha_produto>:
+
+    descricao_text: 'descricao_text'
+    codigo_text: 'codigo_text'
+
+    Label:
+        text: 'Código: {}'.format(root.codigo_text)
+        text_size: self.size
+        font_size: '10sp'
+        halign: 'left'
+    Label:
+        text: root.descricao_text
+        text_size: self.size
+        font_size: '15sp'
+        halign: 'left'
+
+<Linha_tabela>:
+
+    descricao_text: 'descricao_text'
+    preco_text: 'preco_text'
+
+    Label:
+        text:'[b]' + self.descricao_text + ['/b']
+        text_size: self.size
+        font_size: '20sp'
+        halign: 'left'
+    Label:
+        text: self.preco_text
+        text_size: self.size
+        font_size: '15sp'
+        halign: 'left'
+
+
+<Lista_produto>:
+    name: 'lista_produto'
+    canvas.before:
+        Color:
+            rgba: .5, .5, .5, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        spacing: '5dp'
+        orientation: 'vertical'
+
+        BoxLayout:
+            size_hint: 1, .10
+            Label:
+                text: 'Produtos'
+                font_size: '20sp'
+                size_hint: .1, .45
+                pos_hint: {'x':.05, 'y':.3}
+                text_size: self.size
+                halign: 'left'
+        BoxLayout:
+            size_hint: 1, .07
+            TextInput:
+                hint_text: 'Pesquisar produto'
+                size_hint: .7, 1
+                text_size: self.size
+            Button:
+                text: 'Limpar'
+                size_hint: .3, 1
+
+        BoxLayout:
+            size_hint: 1, .7
+            orientation: 'vertical'
+            RecycleView:
+                viewclass: 'Linha_produto'
+                id:recycle_produto
+                ProdutoRecycleGridLayout:
+                    canvas.before:
+                        Color:
+                            rgba: .5, .5, .5, 1
+                        Rectangle:
+                            pos: self.pos
+                            size: self. size
+                    spacing: dp(2)
+                    cols: 1
+                    default_size: None, dp(40)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    multiselect: False
+                    touch_multiselect: False
+            
+        BoxLayout:
+            size_hint: 1, .07
+            orientation: 'vertical'
+            Button:
+                on_press: app.get_running_app().root.current = 'menu'
+                text: 'Voltar'
+                
+
+<Detalhe_produto>:
+    name: 'detalhe_produto'
+
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .10
+            canvas.before:
+                Color:
+                    rgba: .2, .7, .4, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Label:
+                text:'Nome do Produto bem longo para teste'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .80
+            canvas.before:
+                Color:
+                    rgba: .4, .3, .7, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            
+            TabbedPanel:
+                do_default_tab: False
+                tab_width: '150dp'
+                TabbedPanelItem:
+                    text: 'Detalhe'
+                    font_size: '15sp'
+                    BoxLayout:
+                        orientation: 'vertical'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Código'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: '100'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Descrição'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text:'Produto com um descricao longa e mais longa'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Filial'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text:'Filial Principal'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Estoque'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text:'100'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Unidade'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text:'PC'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Enbalagem'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text:'20'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Peso'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text:'15Kg'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            size_hint: 1, .3
+                        
+
+
+
+                TabbedPanelItem:
+                    text: 'Tabela de Preços'
+                    font_size: '15sp'
+                    size_hint: .7, 1
+                    #Demostração
+                    BoxLayout:
+                        orientation: 'vertical'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'AVISTA 15 DIAS - Filial 1'
+                                text_size: self.size
+                                font_size: '20sp'
+                                halign: 'left'
+                            Label:
+                                text: 'R$ 10.00'
+                                text_size: self.size
+                                font_size: '15sp'
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text:'Prazo 30 dias - Filial 2'
+                                text_size: self.size
+                                font_size: '20sp'
+                                halign: 'left'
+                            Label:
+                                text: 'R$ 12.00'
+                                text_size: self.size
+                                font_size: '15sp'
+                                halign: 'left'
+                        GridLayout:
+                            size_hint: 1, .8
+                    
+                    #BoxLayout:
+                    #    orientation: 'vertical'
+                    #    RecycleView:
+                    #        viewclass: 'Linha_tabela'
+                    #        id: tabela
+                    #        TabelaRecycleGridLayout:
+                    #            canvas.before:
+                    #                Color:
+                    #                    rgba: .5, .5, .5, 1
+                    #                Rectangle:
+                    #                    pos: self.pos
+                    #                    size: self.size
+                    #            spacing: dp(2)
+                    #            cols: 1
+                    #            default_size: None, dp(50)
+                    #            default_size_hint: 1, None
+                    #            size_hint_y: None
+                    #            height: self.minimum_height
+                    #            orientation: 'vertical'
+                    #            multiselect: False
+                    #            touch_multiselect: False
+            GridLayout:
+                size_hint: 1, .10
+                cols: 1
+                Button:
+                    text: 'Voltar'
+                    on_press: app.get_running_app().root.current = 'lista_produto'
+
+
+
+
+                            
+

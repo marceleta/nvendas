@@ -9,6 +9,9 @@ from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.button import Button
+from kivy.properties import ObjectProperty, StringProperty
+from cliente import Lista_cliente
+from produto import Lista_produto
 
 class Gerenciador(ScreenManager):
     pass
@@ -70,65 +73,9 @@ class Menu(Screen):
     def show_lista_clientes(self, **args):
         App.get_running_app().root.current = 'lista_cliente'
 
-class SelectableRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior, 
-                                    RecycleGridLayout):
-    pass
+    def show_lista_produtos(self, **args):
+        App.get_running_app().root.current = 'lista_produto'
 
-class Linha_cliente(GridLayout, RecycleDataViewBehavior, Button):
-
-    index = None
-    selected = BooleanProperty(False)
-    selectable = BooleanProperty(True)
-    _data_selected = None
-    cols = 2
-    background_color = (1, 1, 1, 1)
-    
-    def refresh_view_attrs(self, rv, index, data):
-
-        print(data['nome']['text'])
-        print(data['cidade']['text'])
-        
-        self.index = index
-        self.nome_text = data['nome']['text']
-        self.cidade_text = data['cidade']['text']
-
-        #print(self.nome_text)
-        #print(self.cidade_text)
-
-        return super(Linha_cliente, self).refresh_view_attrs(rv, index, data)
-    
-    def on_touch_down(self, touch):
-        
-        if super(Linha_cliente, self).on_touch_down(touch):
-            return True
-        if self.collide_point(*touch.pos) and self.selectable:
-            return self.parent.select_with_touch(self.index, touch)
-
-    def apply_selection(self, rv, index, is_selected):
-        
-        self.selected = is_selected
-        self._data_selected = rv.data[index]
-
-        return True
-
-    def detalhe_cliente(self, *args):
-        pass
-    
-
-class Lista_cliente(Screen):
-    
-    def __init__(self, **kwargs):
-        super(Lista_cliente, self).__init__(**kwargs)
-        Clock.schedule_once(self._setup, 0)
-    
-    def _setup(self, *args):
-        p1 = {'nome':{'text':'Nome1'}, 'cidade':{'text':'Petrolina'}}
-        p2 = {'nome':{'text':'Nome2'}, 'cidade':{'text':'Juazeiro'}}
-        self.ids['recycle'].data.append(p1)
-        self.ids['recycle'].data.append(p2)
-
-class Detalhe_cliente(Screen):
-    pass
         
         
 

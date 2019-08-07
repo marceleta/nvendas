@@ -1,9 +1,15 @@
+#:include cliente.kv
+#:include produto.kv
+
 <Gerenciador>:
+    Lista_produto:
     Lista_cliente:
+    Detalhe_cliente:
+    Detalhe_produto:
     Inicio:
     Login:
     Menu:
-    Detalhe_cliente:
+    
        
 
 <MyBoxLayout@BoxLayout>:
@@ -145,6 +151,7 @@
                 size_hint: None, None
                 width: '110dp'
                 height: '70dp'
+                on_release: root.show_lista_produtos()
             Button:
                 text: 'Contas a receber'
                 size_hint: None, None
@@ -154,95 +161,5 @@
                 text: 'Sincronizar'
                 size_hint: None, None
                 width: '110dp'
-                height: '70dp'
-
-<Linha_cliente>:
-    padding_left: 5
-    nome_text: 'nome_text'
-    cidade_text: 'cidade_text'
-
-    Label:
-        text: root.nome_text
-        text_size: self.size
-        halign: 'left'
-        valign: 'center'
-        size_hint: .7, 1
-    Label:
-        text: root.cidade_text
-        text_size: self.size
-        halign: 'left'
-        size_hint: .3, 1
-        valign: 'center'
-
-<Lista_cliente>:
-    name: 'lista_cliente'
-    canvas.before:
-        Color:
-            rgba: .5, .5, .5, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    BoxLayout:
-        spacing: 5
-        orientation: 'vertical'
-
-        BoxLayout:
-            size_hint: 1, .10
-            Label:
-                text:'Clientes'
-                size_hint: .1, .4
-                pos_hint: {'x': .05, 'y': .3}
-                text_size: self.size
-                halign: 'left'
-        BoxLayout:
-            size_hint: 1, .07
-            TextInput:
-                hint_text: 'Pesquisa nome/cidade'
-                size_hint: .7, 1
-                text_size: self.size
-            Button:
-                text: 'Limpar'
-                size_hint: .3, 1             
+                height: '70dp'        
         
-        BoxLayout:
-            size_hint: 1, .07
-            Label:
-                text: 'Nome'
-                size_hint: .7, .7
-                text_size: self.size
-                halign: 'left'
-            Label:
-                text: 'Cidade'
-                size_hint: .3, .7
-                text_size: self.size
-                halign: 'left'            
-        
-        BoxLayout:
-            orientation: 'vertical'
-            RecycleView:
-                viewclass: 'Linha_cliente'
-                id:recycle
-                SelectableRecycleGridLayout:
-                    spacing: dp(2)
-                    cols: 1
-                    default_size: None, dp(40)
-                    default_size_hint: 1, None
-                    size_hint_y: None
-                    height: self.minimum_height
-                    orientation: 'vertical'
-                    multiselect: False
-                    touch_multiselect: False
-
-<Detalhe_cliente>:
-    name: 'detalhe_cliente'
-
-    TabbedPanel:
-
-        TabbedPanelItem:
-            text: 'Dados Pessoais'
-
-        TabbedPanelItem:
-            text: 'Endereço'
-
-        TabbedPanelItem:
-            text: 'Observações'

@@ -1,0 +1,455 @@
+<Linha_cliente>:
+    
+    nome_text: 'nome_text'
+    codigo_text: 'cidade_text'
+    fantasia_text: 'fantasia_text'
+
+    Label:
+        text: root.nome_text
+        text_size: self.size
+        font_size: '15sp'
+        halign: 'left'
+        valign: 'center'
+        size_hint: .7, 1
+    
+    Label:
+        text: root.fantasia_text
+        font_size: '15sp'
+        text_size: self.size
+        halign: 'left'
+        valign: 'center'
+        size_hint: .7, 1
+
+    Label:
+        text: 'Codigo: {}'.format(root.codigo_text)
+        text_size: self.size
+        font_size: '10sp'
+        halign: 'left'
+        size_hint: .7, 1
+        valign: 'center'
+
+<Lista_cliente>:
+    name: 'lista_cliente'
+    canvas.before:
+        Color:
+            rgba: .5, .5, .5, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        spacing: '5dp'
+        orientation: 'vertical'
+
+        BoxLayout:
+            size_hint: 1, .10
+            Label:
+                text:'Clientes'
+                font_size: '20sp'
+                size_hint: .1, .45
+                pos_hint: {'x': .05, 'y': .3}
+                text_size: self.size
+                halign: 'left'
+        BoxLayout:
+            size_hint: 1, .07
+            TextInput:
+                hint_text: 'Pesquisar nome/cidade'
+                size_hint: .7, 1
+                text_size: self.size
+            Button:
+                text: 'Limpar'
+                size_hint: .3, 1             
+        
+        #BoxLayout:
+        #    size_hint: 1, .07
+        #    Label:
+        #        text: 'Nome'
+        #        size_hint: .7, .7
+        #        text_size: self.size
+        #        halign: 'left'
+        #    Label:
+        #        text: 'Cidade'
+        #        size_hint: .3, .7
+        #        text_size: self.size
+        #        halign: 'left'            
+        
+        BoxLayout:
+            size_hint: 1, .7
+            orientation: 'vertical'
+            RecycleView:
+                viewclass: 'Linha_cliente'
+                id:recycle
+                ClienteRecycleGridLayout:
+                    canvas.before:
+                        Color:
+                            rgba: .5, .5, .5, 1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    spacing: dp(2)
+                    cols: 1
+                    default_size: None, dp(50)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    multiselect: False
+                    touch_multiselect: False
+        GridLayout:
+            size_hint: 1, .07
+            cols:2
+            Button:
+                on_press: app.get_running_app().root.current = 'menu'
+                text:'Voltar'
+                size_hint: .5, .5
+            Button:
+                on_press: app.get_running_app().root.current = 'detalhe_cliente'
+                text:'Novo Cliente'
+                size_hint: .5, .5
+
+<Detalhe_cliente>:
+    name: 'detalhe_cliente'
+
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .10
+            canvas.before:
+                Color:
+                    rgba: .2, .4, .5, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: root.nome
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .80
+            canvas.before:
+                Color:
+                    rgba: .4, .3, .7, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            TabbedPanel:
+                do_default_tab: False
+                TabbedPanelItem:
+                    text: 'Detalhe'
+                    font_size: '15sp'
+                    BoxLayout:
+                        orientation: 'vertical'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Codigo'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: '10101'
+                                font_size:  '15sp'
+                                text_size: self.size
+                                halign: 'left'                        
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'CPF/CNPJ'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text:'046.871.504-54'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Inscrição estadual'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text:'Isento'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left' 
+
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Fantasia'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text:'Nome fantasia'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Contato'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: 'Marcelo'
+                                font_size:  '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Whatsapp'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: '87 988443764'
+                                font_size:  '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Celular'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: '87 988443764'
+                                font_size:  '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Tel. Fixo'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: '87 988443764'
+                                font_size:  '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10                         
+
+                TabbedPanelItem:
+                    text: 'Endereço'
+                    font_size: '15sp'
+                    BoxLayout:
+                        orientation: 'vertical'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Logradouro'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text:'Rua Quintino Marcelo'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Número'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: '295'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Bairro'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: 'Cidade Jardim'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Complemento'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: 'perto de casa'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'Cidade'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: 'Petrolina'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'UF'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: 'PE'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            cols: None
+                            rows: 2
+                            size_hint: 1, .10
+                            Label:
+                                text: 'CEP'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: '56300-000'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            size_hint: 1, .2
+
+                TabbedPanelItem:
+                    text: 'Financeiro'
+                    font_size: '15sp'
+                    BoxLayout:
+                        orientation: 'vertical'
+                        GridLayout:
+                            size_hint: 1, .10
+                            cols: None
+                            rows: 2
+                            Label:
+                                text:'Situação'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: 'Ativo'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            size_hint: 1, .10
+                            cols: None
+                            rows: 2
+                            Label:
+                                text:'Limite de crédito total'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: 'R$ 1.000,00'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            size_hint: 1, .10
+                            cols: None
+                            rows: 2
+                            Label:
+                                text:'Limite de crédito em aberto'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: 'R$ 400.00'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            size_hint: 1, .10
+                            cols: None
+                            rows: 2
+                            Label:
+                                text:'Saldo limite de crédito'
+                                font_size: '10sp'
+                                text_size: self.size
+                                halign: 'left'
+                            Label:
+                                text: 'R$ 600.00'
+                                font_size: '15sp'
+                                text_size: self.size
+                                halign: 'left'
+                        GridLayout:
+                            size_hint: 1, .6
+
+
+                TabbedPanelItem:
+                    text: 'Observações'   
+                    font_size: '15sp'
+                    BoxLayout:
+                        orientation: 'vertical'
+                        GridLayout:
+                            cols:None
+                            rows: 1
+                            size_hint: 1, .5
+                            canvas.before:
+                                Color:
+                                    rgba: .1, .3, .4, 1
+                                Rectangle:
+                                    pos: self.pos
+                                    size: self.size
+                            TextInput:
+                                multiline: True
+
+        GridLayout:
+            cols: None
+            rows: 1
+            size_hint: 1, .1
+            Button:
+                text: 'Voltar'
+                on_press: app.get_running_app().root.current = 'lista_cliente'
+                
