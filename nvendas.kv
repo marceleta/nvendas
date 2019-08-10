@@ -1,16 +1,16 @@
 #:include cliente.kv
 #:include produto.kv
+#:include pedido.kv
 
 <Gerenciador>:
-    Lista_produto:
+    Menu:
+    Inicio:
     Lista_cliente:
+    Lista_produto:
+    Lista_pedido
     Detalhe_cliente:
     Detalhe_produto:
-    Inicio:
-    Login:
-    Menu:
-    
-       
+    Login:      
 
 <MyBoxLayout@BoxLayout>:
     canvas.before:
@@ -140,6 +140,7 @@
                 size_hint: None, None
                 width: '110dp'
                 height: '70dp'
+                on_release: root.show_lista_pedidos()
             Button:
                 text: 'Clientes'
                 size_hint: None, None

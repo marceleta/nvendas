@@ -20,7 +20,7 @@ class Linha_cliente(GridLayout, RecycleDataViewBehavior, Button):
     selected = BooleanProperty(False)
     selectable = BooleanProperty(True)
     _data_selected = None
-    cols = 1  
+    cols = 1
 
     def refresh_view_attrs(self, rv, index, data):
 
@@ -34,8 +34,6 @@ class Linha_cliente(GridLayout, RecycleDataViewBehavior, Button):
     
     def on_touch_down(self, touch):
 
-        print('on_touch_down')
-        
         if super(Linha_cliente, self).on_touch_down(touch):
             return True
         if self.collide_point(*touch.pos) and self.selectable:

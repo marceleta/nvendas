@@ -12,6 +12,7 @@ from kivy.uix.button import Button
 from kivy.properties import ObjectProperty, StringProperty
 from cliente import Lista_cliente
 from produto import Lista_produto
+from pedido import Lista_pedido
 
 class Gerenciador(ScreenManager):
     pass
@@ -75,6 +76,9 @@ class Menu(Screen):
 
     def show_lista_produtos(self, **args):
         App.get_running_app().root.current = 'lista_produto'
+
+    def show_lista_pedidos(self, **args):
+        App.get_running_app().root.current = 'lista_pedido'
 
         
         

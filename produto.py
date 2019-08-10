@@ -32,6 +32,7 @@ class Linha_produto(GridLayout, RecycleDataViewBehavior, Button):
         self.index = index
         self.descricao_text = data['descricao']['text']
         self.codigo_text = data['codigo']['text']
+        self.estoque_text = data['estoque']['text']
 
         return super(Linha_produto, self).refresh_view_attrs(rv, index, data)
 
@@ -61,7 +62,7 @@ class Linha_tabela(GridLayout, RecycleDataViewBehavior):
 
         self.descricao_text = data['descricao']['text']
         self.preco_text = data['preco']['text']
-
+        
         return super(Linha_tabela, self).refresh_view_attrs(rv, index, data)
 
     
@@ -86,8 +87,8 @@ class Lista_produto(Screen):
         Clock.schedule_once(self._setup, 0)
 
     def _setup(self, *args):
-        p1 = {'descricao':{'text':'Produto com a descricao bastante longa'}, 'codigo':{'text':'1452365'}}
-        p2 = {'descricao':{'text':'Produto 2'}, 'codigo':{'text':'987654321'}}
+        p1 = {'descricao':{'text':'Produto com a descricao bastante longa'}, 'codigo':{'text':'1452365'}, 'estoque':{'text': '100'}}
+        p2 = {'descricao':{'text':'Produto 2'}, 'codigo':{'text':'987654321'}, 'estoque':{'text':'150'}}
         self.ids['recycle_produto'].data.append(p1)
         self.ids['recycle_produto'].data.append(p2)
 
