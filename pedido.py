@@ -80,4 +80,10 @@ class Detalhe_pedido(Screen):
 
     def __init__(self, **kwargs):
         super(Detalhe_pedido, self).__init__(**kwargs)
+
+class Selecao_cliente(Screen):
+
+    def __init__(self, **kwargs):
+        super(Selecao_cliente, self).__init__(**kwargs)
+
         

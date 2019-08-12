@@ -80,13 +80,9 @@ class Menu(Screen):
     def show_lista_pedidos(self, **args):
         App.get_running_app().root.current = 'lista_pedido'
 
-        
-        
-
-    
-        
-
-    
+    def show_novo_pedido(self, **args):
+        App.get_running_app().root.current = 'selecao_cliente'
+            
 class NVendas(App):
 
     title= 'nVendas'

@@ -10,7 +10,8 @@
     Lista_pedido
     Detalhe_cliente:
     Detalhe_produto:
-    Login:      
+    Login:
+    Selecao_cliente:      
 
 <MyBoxLayout@BoxLayout>:
     canvas.before:
@@ -135,6 +136,7 @@
             padding: root.width*0.10, root.height*0.1
             spacing: '10dp'
             cols:2
+            size_hint: 1, .90
             Button:
                 text: 'Pedidos'
                 size_hint: None, None
@@ -162,5 +164,11 @@
                 text: 'Sincronizar'
                 size_hint: None, None
                 width: '110dp'
-                height: '70dp'        
+                height: '70dp'
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .10
+            Button:
+                text: 'Novo Pedido'
+                on_release: root.show_novo_pedido()        
         
