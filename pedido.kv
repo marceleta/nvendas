@@ -49,7 +49,7 @@
             RecycleView:
                 viewclass: 'Linha_pedido'
                 id: recycle_pedido
-                PedidoRecycleGridLayout:
+                PedidoClienteRecycleGridLayout:
                     canvas.before:
                         Color:
                             rgba: .5, .5, .5, 1
@@ -74,38 +74,6 @@
             Button:
                 text: 'Novo Pedido'
 
-<Teste_lista_cliente>:
-    BoxLayout:
-            size_hint: 1, .75
-            orientation: 'vertical'
-            canvas.before:
-                Color:
-                    rgba: .4, .6, .7, 1
-                Rectangle:
-                    pos: self.pos   
-                    size: self.size
-
-            RecycleView:
-                viewclass: 'Linha_pedido'
-                id: recycle_pedido
-                PedidoRecycleGridLayout:
-                    canvas.before:
-                        Color:
-                            rgba: .5, .5, .5, 1
-                        Rectangle:
-                            pos: self.pos
-                            size: self.size
-                    spacing: dp(2)
-                    cols: 1
-                    default_size: None, dp(80)
-                    default_size_hint: 1, None
-                    size_hint_y: None
-                    height: self.minimum_height
-                    orientation: 'vertical'
-                    multiselect: False
-                    touch_multiselect: False
-
-
 <Linha_pedido>:
 
     num_pedido_text: 'num_pedido_text'
@@ -116,7 +84,7 @@
     situacao_text: 'situacao_text'
 
     Label:
-        text:root.cliente_text
+        text: root.cliente_text
         text_size: self.size
         font_size: '15sp'
         halign: 'left'
@@ -157,10 +125,6 @@
         halign: 'left'
         valign: 'center'
 
-<Detalhe_pedido>:
-    name: 'detalhe_pedido'
-
-    BoxLayout:
 
 <Selecao_cliente>:
     name: 'selecao_cliente'
@@ -183,17 +147,31 @@
         BoxLayout:
             orientation: 'vertical'
             size_hint: 1, .80
-            Teste_lista_cliente:
-            
-        
+            RecycleView:
+                viewclass: 'Linha_pedido'
+                id: recycle_pedido_cliente
+                PedidoClienteRecycleGridLayout:
+                    canvas.before:
+                        Color:
+                            rgba: .5, .5, .5, 1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    spacing: dp(2)
+                    cols: 1
+                    default_size: None, dp(80)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    multiselect: False
+                    touch_multiselect: False
+
         BoxLayout:
-            orientation: 'vertical'
+            orientation: 'horizontal'
             size_hint: 1, .10
             Button:
-
-
-
-        
-
-        
-        
+                text: 'Voltar'
+                on_press: root.voltar_menu()
+            Button:
+                text: 'Próximo'

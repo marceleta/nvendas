@@ -27,15 +27,26 @@ class Lista_pedido(Screen):
                     'situacao': 'enviado'                
                 }
         }
+        p2 = {'pedido':
+                {
+                    'cliente':'Rafael Gomes',
+                    'numero':'112255',
+                    'data_criacao':'13/08/2019 - 17:00',
+                    'data_envio': '',
+                    'valor': 'R$ 1.245,00',
+                    'situacao': 'orçamento'                
+                }
+        }
 
         self.ids['recycle_pedido'].data.append(p1)
+        self.ids['recycle_pedido'].data.append(p2)
 
     def show_menu(self, *args):
         App.get_running_app().root.current = 'menu'
         
 
 
-class PedidoRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
+class PedidoClienteRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
                         RecycleGridLayout):
     pass
 
@@ -58,6 +69,8 @@ class Linha_pedido(GridLayout, RecycleDataViewBehavior, Button):
         self.valor_text = data['pedido']['valor']
         self.situacao_text = data['pedido']['situacao']
 
+        if self.situacao_text == 'enviado':
+            self.disabled = True
 
         return super(Linha_pedido, self).refresh_view_attrs(rv, index, data)
 
@@ -85,5 +98,8 @@ class Selecao_cliente(Screen):
 
     def __init__(self, **kwargs):
         super(Selecao_cliente, self).__init__(**kwargs)
+
+    def voltar_menu(self):
+        App.get_running_app().root.current = 'menu'
 
         
