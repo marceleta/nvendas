@@ -141,14 +141,36 @@
         BoxLayout:
             orientation: 'vertical'
             size_hint: 1, .10
+            canvas.before:
+                Color:
+                    rgba: .5, .7, .1, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos            
             Label:
                 text: 'Selecione o Cliente'
+        
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, .06
+            canvas.before:
+                Color:
+                    rgba: .2, .5, .9, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            TextInput:
+                hint_text:'Pesquisa cliente'
+                size_hint: .7, 1 
+            Button:
+                text: 'Limpar'
+                size_hint: .3, 1
 
         BoxLayout:
             orientation: 'vertical'
             size_hint: 1, .80
             RecycleView:
-                viewclass: 'Linha_pedido'
+                viewclass: 'Linha_pedido_cliente'
                 id: recycle_pedido_cliente
                 PedidoClienteRecycleGridLayout:
                     canvas.before:
@@ -159,7 +181,7 @@
                             size: self.size
                     spacing: dp(2)
                     cols: 1
-                    default_size: None, dp(80)
+                    default_size: None, dp(50)
                     default_size_hint: 1, None
                     size_hint_y: None
                     height: self.minimum_height
@@ -173,5 +195,109 @@
             Button:
                 text: 'Voltar'
                 on_press: root.voltar_menu()
+
+<Linha_pedido_cliente>:
+
+    codigo_text: 'codigo_text'
+    nome_text: 'nome_text'
+    fantasia_text: 'fantasia_text'
+
+    Label:
+        text: root.nome_text
+        text_size: self.size
+        font_size: '15sp'
+        halign: 'left'
+    Label:
+        text: root.fantasia_text
+        text_size: self.size
+        font_size: '10sp'
+        halign: 'left'
+    Label:
+        text: root.codigo_text
+        text_size: self.size
+        font_size: '10sp'
+        halign: 'left'
+
+<Selecao_forma_pagto>:
+    name: 'selecao_forma_pagto'
+
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: .5, .5, .5, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .10
+            
+            GridLayout:
+                cols: None
+                rows: 2
+                Label:
+                    text: 'Cliente:'
+                    text_size: self.size
+                    font_size: '10sp'
+                    halign: 'left'
+                Label:
+                    id: lb_cliente
+                    text: ''
+                    text_size: self.size
+                    font_size: '20sp'
+                    halign: 'left'            
+        
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .10
+            Spinner:
+                text: 'Un. Negócio: Filial 1'
+                values: 'Un. Negócio: Filial 1', 'Un. Negócio: Filial 2'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .10
+            Spinner:
+                text: 'Forma Pagamento'
+                values: 'A Vista', 'Cheque', 'Boleto'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .10
+            Spinner:
+                text: 'Prazo pagamento'
+                values: '30 dias', '30/60 dias'
+                on_release: print('selecionado')
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .10
+            Spinner:
+                text: 'Orçamento'
+                values: 'Sim', 'Não'
+                on_release: print(self.text)
+
+        
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 1, .60
+            
+        BoxLayout:
+            size_hint: 1, .10
             Button:
-                text: 'Próximo'
+                text:'Voltar'
+                on_press: root.voltar_lista_cliente()
+            Button:
+                text:'Produtos'
+                on_press: root.voltar_lista_cliente()
+
+
+
+            
+            
+        
+
+
+
