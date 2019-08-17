@@ -8,6 +8,7 @@ from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.clock import Clock
+from kivy.uix.popup import Popup
 
 
 class Lista_pedido(Screen):
@@ -121,8 +122,8 @@ class Linha_pedido_cliente(GridLayout, RecycleDataViewBehavior, Button):
         return True
 
     def on_press(self):
-        App.get_running_app().root.get_screen('selecao_forma_pagto').cliente = self._data_selected
-        App.get_running_app().root.current = 'selecao_forma_pagto'
+        App.get_running_app().root.get_screen('pedido').cliente = self._data_selected
+        App.get_running_app().root.current = 'pedido'
         
 
 class Detalhe_pedido(Screen):
@@ -163,12 +164,12 @@ class Selecao_cliente(Screen):
     def voltar_menu(self):
         App.get_running_app().root.current = 'menu'
 
-class Selecao_forma_pagto(Screen):
+class Pedido(Screen):
 
     cliente = ObjectProperty(None)
     
     def __init__(self, **kwargs):
-        super(Selecao_forma_pagto, self).__init__(**kwargs)
+        super(Pedido, self).__init__(**kwargs)
 
     def on_cliente(self, *args):
         print('cliente: {}'.format(self.cliente)) 
@@ -178,4 +179,143 @@ class Selecao_forma_pagto(Screen):
     def voltar_lista_cliente(self, *args):
         App.get_running_app().root.current = 'selecao_cliente'
 
+    def show_pedido(self, *args):
+        App.get_running_app().root.current = 'pedido'
+
+    def show_adicionar_produto(self, *args):
+        App.get_running_app().root.current = 'produto_pedido'
+
+class ItemPedidoRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
+                        RecycleGridLayout):
+    pass
+
+class Item_pedido(GridLayout, Button, RecycleDataViewBehavior):
+
+    cols = 1
+    selectable = BooleanProperty(True)
+    selected = BooleanProperty(False)
+    index = None
+    _data_selected = None
+
+    def refresh_view_attrs(self, rv, index, data):
+
+        self.index = index
+        self.codigo_text = data['produto']['codigo']
+        self.descricao_text = data['produto']['descricao']
+        self.quantidade_text = data['produto']['quantidade']
+        self.preco_text = data['produto']['preco']
+
+        preco = float(data['produto']['preco'])
+        quantidade = float(data['produto']['quantidade'])
+
+        total = round(preco * quantidade)
+
+        self.total_text = str(total)
+
+        return super(Item_pedido, self).refresh_view_attrs(rv, index, data)
+
+    def on_touch_down(self, touch):
+
+        if super(Item_pedido, self).on_touch_down(touch):
+            return True
+        if self.collide_point(*touch.pos) and self.selectable:
+            return self.parent.select_with_touch(self.index, touch)
+
+    def apply_selection(self, rv, index, is_selected):
         
+        self.selected = is_selected
+        self._data_selected = rv.data[index]
+        
+        return True
+
+class Produto_pedido(Screen):
+    
+    def __init__(self, **kwargs):
+        super(Produto_pedido, self).__init__(**kwargs)
+        Clock.schedule_once(self._setup, 0)
+
+    def _setup(self, *args):
+        p1 = {'produto':
+                        {
+                         'nome':'Produto 1', 
+                         'codigo':'17852',
+                         'preco':'1.20',
+                         'quantidade': '100'
+                         }
+                }
+
+        p2 = {'produto':
+                        {'nome':'Produto 2', 
+                         'codigo':'14654',
+                         'preco':'3.50',
+                         'quantidade': '130'
+                         }
+                }
+        
+        self.ids['recycle_produto_lista'].data.append(p1)
+        self.ids['recycle_produto_lista'].data.append(p2)
+
+class LinhaProdutoRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
+                        RecycleGridLayout):
+    pass 
+
+class Linha_produto_pedido(GridLayout, Button, RecycleDataViewBehavior):
+    
+    cols = 1
+    selectable = BooleanProperty(True)
+    selected = BooleanProperty(False)
+    index = None
+    _data_selected = None
+
+    def refresh_view_attrs(self, rv, index, data):
+
+        self.index = index
+        self.codigo_text = data['produto']['codigo']
+        self.descricao_text = data['produto']['nome']
+        self.preco_text = data['produto']['preco']
+
+
+        return super(Linha_produto_pedido, self).refresh_view_attrs(rv, index, data)
+
+    def on_touch_down(self, touch):
+        
+        if super(Linha_produto_pedido, self).on_touch_down(touch):
+            return True
+        if self.collide_point(*touch.pos) and self.selectable:
+            return self.parent.select_with_touch(self.index, touch)
+
+    def apply_selection(self, rv, index, is_selected):
+
+        self.selected = is_selected
+        self._data_selected = rv.data[index]
+        
+
+        return True
+
+    def on_press(self):
+        print('produto selecionado: {}'.format(self._data_selected))
+        quantidade = None
+        qtd_popup = Qtd_popup(quantidade)
+        qtd_popup.open()
+
+        if quantidade == None:
+            print('is none')
+        elif quantidade != None:
+            print('quantidade: {}'.format(quantidade))
+        
+        
+
+class Qtd_popup(Popup):
+
+    
+    def __init__(self, quantidade,**kwargs):
+        super(Qtd_popup, self).__init__(**kwargs)
+
+        self.quantidade = quantidade
+
+    def adicionar(self, *args):
+        self.quantidade = self.ids['txt_quantidade'].text
+        self.dismiss()
+
+
+   

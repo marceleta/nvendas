@@ -218,86 +218,276 @@
         font_size: '10sp'
         halign: 'left'
 
-<Selecao_forma_pagto>:
-    name: 'selecao_forma_pagto'
+<Pedido>:
+    name: 'pedido'
+    canvas.before:
+        Color:
+            rgba: .5, .5, .5, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    TabbedPanel:
+        do_default_tab: False
+        TabbedPanelItem:
+            text: 'Detalhe'
+            font_size: '15sp'
+            BoxLayout:
+                orientation: 'vertical'
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, .10                    
+                    GridLayout:
+                        cols: None
+                        rows: 2
+                        Label:
+                            text: 'Cliente:'
+                            text_size: self.size
+                            font_size: '10sp'
+                            halign: 'left'
+                        Label:
+                            id: lb_cliente
+                            text: ''
+                            text_size: self.size
+                            font_size: '20sp'
+                            halign: 'left'            
+                
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, .15
+                    Label:
+                        text: 'Filial'
+                        text_size: self.size
+                        font_size: '10sp'
+                        size_hint: .7, .03
+                    Spinner:
+                        text: 'Filial 1'
+                        values: 'Filial 1', 'Filial 2'
+                        text_size: self.size
+                        font_size: '30sp'
+                        size_hint: .7, .12
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, .15
+                    Label:
+                        text: 'Forma pagamento'
+                        size_hint: 1, .03
+                        text_size: self.size
+                        font_size: '10sp'
+                    Spinner:
+                        size_hint: .7, .12
+                        text_size: self.size
+                        font_size: '30sp'
+                        text: 'A Vista'
+                        values: 'A Vista', 'Cheque', 'Boleto'
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, .15
+                    Label:
+                        size_hint: 1, .03
+                        text: 'Prazo pagamento'
+                        text_size: self.size
+                        font_size: '10sp'                
+                    Spinner:
+                        size_hint: .7, .12
+                        text: 'A Vista'
+                        values: 'A Vista', '30 dias', '30/60 dias', '30/60/90 dias'
+                        text_size: self.size
+                        font_size: '30sp'
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, .15
+                    Label:
+                        text: 'Orçamento'
+                        text_size: self.size
+                        font_size: '10sp'
+                        size_hint: .5, .03
+                    Spinner:
+                        text: 'Não'
+                        values: 'Sim', 'Não'
+                        on_release: print(self.text)
+                        text_size: self.size
+                        font_size: '30sp'
+                        size_hint: .7, .12
+
+                BoxLayout:
+                    size_hint: 1, .20
+
+                BoxLayout:
+                    size_hint: 1, .10
+                    Button:
+                        text:'Voltar'
+                        on_press: root.voltar_lista_cliente()
+
+                
+
+        TabbedPanelItem:
+            text:'Produtos'
+            font_size: '15dp'
+            BoxLayout:
+                orientation: 'vertical'
+                BoxLayout:
+                    size_hint: 1, .90
+                    canvas.before:
+                        Color:
+                            rgba: .1, .6, .5, 1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    RecycleView:
+                        viewclass: 'Item_pedido'
+                        id: recycle_item_pedido
+                        ItemPedidoRecycleGridLayout:
+                            spacing: dp(2)
+                            cols: 1
+                            default_size: None, dp(50)
+                            default_size_hint: 1, None
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: 'vertical'
+                            multiselect: False
+                            touch_multiselect: False
+
+                BoxLayout:
+                    size_hint: 1, .10
+                    canvas.before:
+                        Color:
+                            rgba: .1, .6, .5, 1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Button:
+                        text: 'Adicionar'
+                        on_press: root.show_adicionar_produto()
+
+<Label_menor@Label>:
+    font_size: '10sp'
+    text_size: self.size
+    halign: 'left'
+<Label_maior@Label>:
+    font_size: '15sp'
+    text_size: self.size
+    halign: 'left'
+
+<Item_pedido>:
+
+    descricao_text: 'descricao_text'
+    codigo_text: 'codigo_text'
+    quantidade_text: 'quantidade_text'
+    preco_text: 'preco_text'
+    total_text: 'total_text'
+
+    Label_menor:
+        text: 'Código: {}'.format(root.codigo_text)
+    Label_maior:
+        text: root.descricao_text
+    Label_menor:
+        text: 'Quantidade: {}'.format(root.quantidade_text)
+    Label_menor:
+        text: 'Preço: {}'.format(root.preco_text)
+    Label_maior:
+        text: 'Total: {}'.format(self.total_text)
+
+
+<Produto_pedido>:
+    name: 'produto_pedido'
 
     BoxLayout:
         orientation: 'vertical'
-        canvas.before:
-            Color:
-                rgba: .5, .5, .5, 1
-            Rectangle:
-                size: self.size
-                pos: self.pos
+        BoxLayout:
+            size_hint: 1, .10
+            Button:
 
         BoxLayout:
-            orientation: 'vertical'
-            size_hint: 1, .10
-            
-            GridLayout:
-                cols: None
-                rows: 2
-                Label:
-                    text: 'Cliente:'
-                    text_size: self.size
-                    font_size: '10sp'
-                    halign: 'left'
-                Label:
-                    id: lb_cliente
-                    text: ''
-                    text_size: self.size
-                    font_size: '20sp'
-                    halign: 'left'            
-        
-        BoxLayout:
-            orientation: 'vertical'
-            size_hint: 1, .10
-            Spinner:
-                text: 'Un. Negócio: Filial 1'
-                values: 'Un. Negócio: Filial 1', 'Un. Negócio: Filial 2'
+            size_hint: 1, .80
+            RecycleView:
+                viewclass: 'Linha_produto_pedido'
+                id: recycle_produto_lista
+                LinhaProdutoRecycleGridLayout:
+                    spacing: dp(2)
+                    cols: 1
+                    default_size: None, dp(60)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    multiselect: False
+                    touch_multiselect: False
 
         BoxLayout:
-            orientation: 'vertical'
             size_hint: 1, .10
-            Spinner:
-                text: 'Forma Pagamento'
-                values: 'A Vista', 'Cheque', 'Boleto'
+            BoxLayout:
+                orientation: 'horizontal'
+                TextInput:
+                    size_hint: .7, 1
+                Button:
+                    size_hint: .3, 1
 
-        BoxLayout:
-            orientation: 'vertical'
-            size_hint: 1, .10
-            Spinner:
-                text: 'Prazo pagamento'
-                values: '30 dias', '30/60 dias'
-                on_release: print('selecionado')
+<Linha_produto_pedido>:
 
-        BoxLayout:
-            orientation: 'vertical'
-            size_hint: 1, .10
-            Spinner:
-                text: 'Orçamento'
-                values: 'Sim', 'Não'
-                on_release: print(self.text)
+    codigo_text: 'codigo_text'
+    descricao_text: 'descricao_text'
+    preco_text: 'preco_text'
 
-        
-        BoxLayout:
-            orientation: 'vertical'
+    Label:
+        text:'Código: {}'.format(root.codigo_text)
+        text_size: self.size
+        font_size: '10sp'
+        halign: 'left'
+        valign: 'center'
+        size_hint: .7, 1
+
+    Label:
+        text:root.descricao_text
+        text_size: self.size
+        font_size: '20sp'
+        halign: 'left'
+        valign: 'center'
+        size_hint: .7, 1
+
+    Label:
+        text:'Preço: {}'.format(root.preco_text)
+        text_size: self.size
+        font_size: '15sp'
+        halign: 'left'
+        valign: 'center'
+        size_hint: .7, 1
+
+<Qtd_popup>:
+    id: quantidade_popup
+    auto_dismiss: False
+    size_hint: .7, .4
+    title: 'Quantidade Produto'
+    
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 5
+        GridLayout:
+            cols:3
+            rows:1
             size_hint: 1, .60
-            
-        BoxLayout:
-            size_hint: 1, .10
             Button:
-                text:'Voltar'
-                on_press: root.voltar_lista_cliente()
+                text: '-'
+                font_size: '50sp'
+            TextInput:
+                id: txt_quantidade
+                text: '10'
+                multiline: False
+                text_size: self.size
+                font_size: '50sp'
             Button:
-                text:'Produtos'
-                on_press: root.voltar_lista_cliente()
-
-
-
-            
-            
-        
-
-
-
+                text: '+'
+                font_size: '50sp'
+        GridLayout:
+            cols: 2
+            rows: 1
+            size_hint: 1, .40
+            Button:
+                text: 'Cancelar'
+                on_press: root.dismiss()
+            Button:
+                text: 'Adicionar'
+                on_press: root.adicionar()
