@@ -185,6 +185,20 @@ class Pedido(Screen):
     def show_adicionar_produto(self, *args):
         App.get_running_app().root.current = 'produto_pedido'
 
+class Remover_produto(Popup):
+    
+    def __init__(self, produto, **kwargs):
+        super(Remover_produto, self).__init__(**kwargs)
+        self.produto = produto
+
+    def remover(self, *args):
+        data = App.get_running_app().root.get_screen('pedido').ids['recycle_item_pedido'].data
+        data.remove(self.produto)
+ 
+        self.dismiss()
+
+    
+
 class ItemPedidoRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
                         RecycleGridLayout):
     pass
@@ -196,9 +210,11 @@ class Item_pedido(GridLayout, Button, RecycleDataViewBehavior):
     selected = BooleanProperty(False)
     index = None
     _data_selected = None
+    data = None
 
     def refresh_view_attrs(self, rv, index, data):
-
+        
+        self.data = data
         self.index = index
         self.codigo_text = data['produto']['codigo']
         self.descricao_text = data['produto']['descricao']
@@ -228,16 +244,26 @@ class Item_pedido(GridLayout, Button, RecycleDataViewBehavior):
         
         return True
 
+    def on_press(self, *args):
+        rem_produto = Remover_produto(self._data_selected)
+        rem_produto.open()
+
+
 class Produto_pedido(Screen):
+
+    produto = ObjectProperty(None)
     
     def __init__(self, **kwargs):
         super(Produto_pedido, self).__init__(**kwargs)
         Clock.schedule_once(self._setup, 0)
 
+    def on_produto(self, *args):
+        self.ids['recycle_produto_lista'].data.append(self.produto)
+
     def _setup(self, *args):
         p1 = {'produto':
                         {
-                         'nome':'Produto 1', 
+                         'descricao':'Produto 1', 
                          'codigo':'17852',
                          'preco':'1.20',
                          'quantidade': '100'
@@ -245,7 +271,7 @@ class Produto_pedido(Screen):
                 }
 
         p2 = {'produto':
-                        {'nome':'Produto 2', 
+                        {'descricao':'Produto 2', 
                          'codigo':'14654',
                          'preco':'3.50',
                          'quantidade': '130'
@@ -254,6 +280,9 @@ class Produto_pedido(Screen):
         
         self.ids['recycle_produto_lista'].data.append(p1)
         self.ids['recycle_produto_lista'].data.append(p2)
+    
+    def voltar(self, *args):
+        App.get_running_app().root.current = 'pedido'
 
 class LinhaProdutoRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
                         RecycleGridLayout):
@@ -271,7 +300,7 @@ class Linha_produto_pedido(GridLayout, Button, RecycleDataViewBehavior):
 
         self.index = index
         self.codigo_text = data['produto']['codigo']
-        self.descricao_text = data['produto']['nome']
+        self.descricao_text = data['produto']['descricao']
         self.preco_text = data['produto']['preco']
 
 
@@ -294,28 +323,36 @@ class Linha_produto_pedido(GridLayout, Button, RecycleDataViewBehavior):
 
     def on_press(self):
         print('produto selecionado: {}'.format(self._data_selected))
-        quantidade = None
-        qtd_popup = Qtd_popup(quantidade)
+        qtd_popup = Qtd_popup(self._data_selected)
         qtd_popup.open()
-
-        if quantidade == None:
-            print('is none')
-        elif quantidade != None:
-            print('quantidade: {}'.format(quantidade))
-        
         
 
 class Qtd_popup(Popup):
 
     
-    def __init__(self, quantidade,**kwargs):
+    def __init__(self, produto, **kwargs):
         super(Qtd_popup, self).__init__(**kwargs)
-
-        self.quantidade = quantidade
+        self.produto = produto
 
     def adicionar(self, *args):
-        self.quantidade = self.ids['txt_quantidade'].text
+        quantidade = self.ids['txt_quantidade'].text
+        self.produto['produto']['quantidade'] = quantidade
+        data = App.get_running_app().root.get_screen('pedido').ids['recycle_item_pedido'].data
+        is_incluso = self.produto in data
+        
+        if is_incluso:
+            print('produto já incluso')
+            existe_produto = Existe_produto()
+            existe_produto.open()
+            
+        else:
+            data.append(self.produto)
+
+        print('adicionar')
         self.dismiss()
 
-
-   
+class Existe_produto(Popup):
+    
+    def __init__(self, **kwargs):
+        super(Existe_produto, self).__init__(**kwargs)
+    

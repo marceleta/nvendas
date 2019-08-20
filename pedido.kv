@@ -363,6 +363,44 @@
                         text: 'Adicionar'
                         on_press: root.show_adicionar_produto()
 
+<Remover_produto>:
+    id: remover_produto
+    auto_dismiss: False
+    size_hint: .7, .3
+    title: 'Remover produto'
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'Deseja remover o produto?'
+        GridLayout:
+            cols:2
+            rows: None
+            Button:
+                text: 'Cancelar'
+                on_press: root.dismiss()
+            Button:
+                text: 'Confirmar'
+                on_press: root.remover()
+
+<Existe_produto>:
+    id: existe_produto
+    auto_dismiss: True
+    size_hint: .7, .3
+    title: 'Produto'
+
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            Label:
+                text: 'Produto já adicionado'
+        BoxLayout:
+            Button:
+                text: 'Ok'
+                on_press: root.dismiss()
+
 <Label_menor@Label>:
     font_size: '10sp'
     text_size: self.size
@@ -384,12 +422,16 @@
         text: 'Código: {}'.format(root.codigo_text)
     Label_maior:
         text: root.descricao_text
-    Label_menor:
-        text: 'Quantidade: {}'.format(root.quantidade_text)
-    Label_menor:
-        text: 'Preço: {}'.format(root.preco_text)
+    GridLayout:
+        cols: 2
+        rows: 1
+        size_hint: .5, 1
+        Label_menor:
+            text: 'Quantidade: {}'.format(root.quantidade_text)
+        Label_menor:
+            text: 'Preço: {}'.format(root.preco_text)
     Label_maior:
-        text: 'Total: {}'.format(self.total_text)
+        text: 'Total: {}'.format(root.total_text)
 
 
 <Produto_pedido>:
@@ -425,6 +467,7 @@
                     size_hint: .7, 1
                 Button:
                     size_hint: .3, 1
+                    on_press: root.voltar()
 
 <Linha_produto_pedido>:
 
