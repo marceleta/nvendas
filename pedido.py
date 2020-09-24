@@ -1,6 +1,6 @@
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
-from kivy.properties import BooleanProperty, ObjectProperty
+from kivy.properties import BooleanProperty, ObjectProperty, StringProperty
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.recyclegridlayout import RecycleGridLayout
@@ -76,8 +76,8 @@ class Linha_pedido(GridLayout, RecycleDataViewBehavior, Button):
         return super(Linha_pedido, self).refresh_view_attrs(rv, index, data)
 
     def on_touch_down(self, touch):
-
-        if super(Linha_pedido, self).on_touch_down(touch):
+    
+        if super(Linha_pedido_cliente, self).on_touch_down(touch):
             return True
         if self.collide_point(*touch.pos) and self.selectable:
             return self.parent.select_with_touch(self.index, touch)
@@ -167,14 +167,22 @@ class Selecao_cliente(Screen):
 class Pedido(Screen):
 
     cliente = ObjectProperty(None)
-    
+    item = ObjectProperty(None)
+    total_itens = StringProperty('')
+    total_pedido = StringProperty('')
+
     def __init__(self, **kwargs):
         super(Pedido, self).__init__(**kwargs)
 
     def on_cliente(self, *args):
         print('cliente: {}'.format(self.cliente)) 
-        self.ids['lb_cliente'].text = self.cliente['cliente']['nome']       
+        self.ids['lb_cliente'].text = self.cliente['cliente']['nome']
 
+    def on_item(self, *args):
+        self.data_pedido = App.get_running_app().root.get_screen('pedido').ids['recycle_item_pedido'].data
+        self.data_pedido.append(self.item)
+        self.total_itens = self.get_total_itens(self.data_pedido)
+        self.total_pedido = self.get_total_pedido(self.data_pedido)
 
     def voltar_lista_cliente(self, *args):
         App.get_running_app().root.current = 'selecao_cliente'
@@ -184,6 +192,30 @@ class Pedido(Screen):
 
     def show_adicionar_produto(self, *args):
         App.get_running_app().root.current = 'produto_pedido'
+
+    def get_total_itens(self, data_pedido ,*args):
+
+        quantidade = 0
+
+        if data_pedido != None:
+            quantidade = len(self.data_pedido)
+
+        return str(quantidade)
+
+    def get_total_pedido(self, data_pedido, *args):
+        total = 0.0
+
+        if data_pedido != None:
+            for data in self.data_pedido:
+                qtd   = data['produto']['quantidade']
+                preco = data['produto']['preco']
+                total_produto = float(qtd) * float(preco)
+                total = total + total_produto
+
+        return str(total)
+            
+            
+
 
 class Remover_produto(Popup):
     
@@ -211,12 +243,15 @@ class Item_pedido(GridLayout, Button, RecycleDataViewBehavior):
     index = None
     _data_selected = None
     data = None
+    alterar_qtd = None
+    remove_produto = None
+    tempo_precionado = 0
 
     def refresh_view_attrs(self, rv, index, data):
         
         self.data = data
         self.index = index
-        self.codigo_text = data['produto']['codigo']
+        #self.codigo_text = data['produto']['codigo']
         self.descricao_text = data['produto']['descricao']
         self.quantidade_text = data['produto']['quantidade']
         self.preco_text = data['produto']['preco']
@@ -231,11 +266,37 @@ class Item_pedido(GridLayout, Button, RecycleDataViewBehavior):
         return super(Item_pedido, self).refresh_view_attrs(rv, index, data)
 
     def on_touch_down(self, touch):
+        print('on_touch_down')
+        self.alterar_qtd = None
+        self.remove_produto = None
+        self.tempo_precionado = 0
+        Clock.schedule_interval(self._remover_produto, 0.5)
 
-        if super(Item_pedido, self).on_touch_down(touch):
-            return True
-        if self.collide_point(*touch.pos) and self.selectable:
-            return self.parent.select_with_touch(self.index, touch)
+        return True #super().on_touch_down(touch)
+
+    def on_touch_up(self, touch):
+        print('on_touch_up')
+        Clock.unschedule(self._remover_produto)
+        
+        if self.tempo_precionado < 3:
+             if self.alterar_qtd == None:
+                print('tempo_precionado: {}'.format(self.tempo_precionado))
+                self.alterar_qtd = Alterar_qtd(self._data_selected)
+                self.alterar_qtd.open()
+
+        return True #super().on_touch_up(touch)
+
+    def _remover_produto(self, *args):
+        print('_remover_produto')
+        self.tempo_precionado = self.tempo_precionado + 1
+        print('_remover_produto:tempo_precionado: {}'.format(self.tempo_precionado))
+        if self.tempo_precionado >= 3:
+            print('if show remover_produto')
+            if self.remove_produto == None:
+                self.remove_produto = Remover_produto(self._data_selected)
+                self.remove_produto.open()
+        if self.tempo_precionado > 4:
+            Clock.unschedule(self._remover_produto)
 
     def apply_selection(self, rv, index, is_selected):
         
@@ -243,11 +304,7 @@ class Item_pedido(GridLayout, Button, RecycleDataViewBehavior):
         self._data_selected = rv.data[index]
         
         return True
-
-    def on_press(self, *args):
-        rem_produto = Remover_produto(self._data_selected)
-        rem_produto.open()
-
+   
 
 class Produto_pedido(Screen):
 
@@ -277,9 +334,18 @@ class Produto_pedido(Screen):
                          'quantidade': '130'
                          }
                 }
+
+        p3 = {'produto':
+                        {'descricao':'Produto 3', 
+                         'codigo':'14654',
+                         'preco':'3.50',
+                         'quantidade': '130'
+                         }
+                }
         
         self.ids['recycle_produto_lista'].data.append(p1)
         self.ids['recycle_produto_lista'].data.append(p2)
+        self.ids['recycle_produto_lista'].data.append(p3)
     
     def voltar(self, *args):
         App.get_running_app().root.current = 'pedido'
@@ -330,25 +396,34 @@ class Linha_produto_pedido(GridLayout, Button, RecycleDataViewBehavior):
 class Qtd_popup(Popup):
 
     
-    def __init__(self, produto, **kwargs):
+    def __init__(self, produto=None, **kwargs):
         super(Qtd_popup, self).__init__(**kwargs)
         self.produto = produto
 
     def adicionar(self, *args):
-        quantidade = self.ids['txt_quantidade'].text
-        self.produto['produto']['quantidade'] = quantidade
         data = App.get_running_app().root.get_screen('pedido').ids['recycle_item_pedido'].data
         is_incluso = self.produto in data
-        
         if is_incluso:
-            print('produto já incluso')
             existe_produto = Existe_produto()
             existe_produto.open()
             
         else:
-            data.append(self.produto)
+            self.produto['produto']['quantidade'] = self.ids['txt_quantidade'].text        
+            App.get_running_app().root.get_screen('pedido').item = self.produto
 
-        print('adicionar')
+        self.dismiss()
+
+class Alterar_qtd(Popup):
+
+    def __init__(self, produto, **kwargs):
+        super(Alterar_qtd, self).__init__(**kwargs)
+        self.produto = produto
+        self.ids['txt_quantidade'].text = self.produto['produto']['quantidade']
+
+
+    def alterar(self, *args):
+        self.produto['produto']['quantidade'] = self.ids['txt_quantidade'].text
+
         self.dismiss()
 
 class Existe_produto(Popup):

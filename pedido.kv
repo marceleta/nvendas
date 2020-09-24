@@ -198,6 +198,7 @@
 
 <Linha_pedido_cliente>:
 
+
     codigo_text: 'codigo_text'
     nome_text: 'nome_text'
     fantasia_text: 'fantasia_text'
@@ -321,8 +322,8 @@
                     Button:
                         text:'Voltar'
                         on_press: root.voltar_lista_cliente()
-
-                
+                    Button:
+                        text: 'Fechar'
 
         TabbedPanelItem:
             text:'Produtos'
@@ -353,6 +354,18 @@
 
                 BoxLayout:
                     size_hint: 1, .10
+                    Label:
+                        text: 'Total itens:'
+                    Label:
+                        text: root.total_itens
+                    Label:
+                        text: 'Total pedido:'
+                    Label:
+                        text: root.total_pedido
+
+
+                BoxLayout:
+                    size_hint: 1, .10
                     canvas.before:
                         Color:
                             rgba: .1, .6, .5, 1
@@ -362,44 +375,6 @@
                     Button:
                         text: 'Adicionar'
                         on_press: root.show_adicionar_produto()
-
-<Remover_produto>:
-    id: remover_produto
-    auto_dismiss: False
-    size_hint: .7, .3
-    title: 'Remover produto'
-    BoxLayout:
-        orientation: 'vertical'
-
-        BoxLayout:
-            orientation: 'vertical'
-            Label:
-                text: 'Deseja remover o produto?'
-        GridLayout:
-            cols:2
-            rows: None
-            Button:
-                text: 'Cancelar'
-                on_press: root.dismiss()
-            Button:
-                text: 'Confirmar'
-                on_press: root.remover()
-
-<Existe_produto>:
-    id: existe_produto
-    auto_dismiss: True
-    size_hint: .7, .3
-    title: 'Produto'
-
-    BoxLayout:
-        orientation: 'vertical'
-        BoxLayout:
-            Label:
-                text: 'Produto já adicionado'
-        BoxLayout:
-            Button:
-                text: 'Ok'
-                on_press: root.dismiss()
 
 <Label_menor@Label>:
     font_size: '10sp'
@@ -418,8 +393,8 @@
     preco_text: 'preco_text'
     total_text: 'total_text'
 
-    Label_menor:
-        text: 'Código: {}'.format(root.codigo_text)
+    #Label_menor:
+    #    text: 'Código: {}'.format(root.codigo_text)
     Label_maior:
         text: root.descricao_text
     GridLayout:
@@ -435,13 +410,24 @@
 
 
 <Produto_pedido>:
+#Lista de produtos para adicionar ao pedido
     name: 'produto_pedido'
 
     BoxLayout:
         orientation: 'vertical'
-        BoxLayout:
-            size_hint: 1, .10
-            Button:
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        ActionBar:
+            id: actBarListaProduto
+            pos_hint: {'top':1}
+            ActionView:
+                ActionPrevious:
+                    title: 'Pedido'
+                    on_release: app.root.current = 'pedido'
 
         BoxLayout:
             size_hint: 1, .80
@@ -466,8 +452,9 @@
                 TextInput:
                     size_hint: .7, 1
                 Button:
+                    text: 'Pesquisar'
                     size_hint: .3, 1
-                    on_press: root.voltar()
+                        
 
 <Linha_produto_pedido>:
 
@@ -534,3 +521,72 @@
             Button:
                 text: 'Adicionar'
                 on_press: root.adicionar()
+
+<Existe_produto>:
+    id: existe_produto
+    auto_dismiss: True
+    size_hint: .7, .3
+    title: 'Produto'
+
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            Label:
+                text: 'Produto já adicionado'
+        BoxLayout:
+            Button:
+                text: 'Ok'
+                on_press: root.dismiss()
+
+<Remover_produto>:
+    auto_dismiss: False
+    size_hint: .7, .4
+    title: 'Produto'
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            Label:
+                text: 'Deseja remover o produto?'
+        BoxLayout:
+            Button:
+                text: 'Cancelar'
+                on_press: root.dismiss()
+            Button:
+                text: 'Sim'
+                on_press: root.remover()
+
+<Alterar_qtd>:
+    id: alterar_qtd
+    auto_dismiss: False
+    size_hint: .7, .4
+    title: 'Alterar Quantidade'
+    
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 5
+        GridLayout:
+            cols:3
+            rows:1
+            size_hint: 1, .60
+            Button:
+                text: '-'
+                font_size: '50sp'
+            TextInput:
+                id: txt_quantidade
+                text: '10'
+                multiline: False
+                text_size: self.size
+                font_size: '50sp'
+            Button:
+                text: '+'
+                font_size: '50sp'
+        GridLayout:
+            cols: 2
+            rows: 1
+            size_hint: 1, .40
+            Button:
+                text: 'Cancelar'
+                on_press: root.dismiss()
+            Button:
+                text: 'Alterar'
+                on_press: root.alterar()
